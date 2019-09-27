@@ -140,7 +140,7 @@ def get_pulses_iter(otx_api_key, from_timestamp=None):
 
 
 def create_events(pulse_or_list, author=False, server=False, key=False, misp=False, distribution=0, threat_level=4,
-                  analysis=2, publish=False, tlp=True, discover_tags=False, to_ids=False, author_tag=False,
+                  analysis=2, publish=True, tlp=True, discover_tags=False, to_ids=False, author_tag=False,
                   bulk_tag=None, dedup_titles=False, stop_on_error=False):
     """
     Parse a Pulse or a list of Pulses and add it/them to MISP if server and key are present
@@ -255,7 +255,7 @@ def create_events(pulse_or_list, author=False, server=False, key=False, misp=Fal
 
     if misp:
         if not dedup_titles:
-            event = misp.new_event(distribution, threat_level, analysis, event_name, date=event_date, published=publish)
+            event = misp.new_event(distribution, threat_level, analysis, event_name, date=event_date, published=False)
         else:
             event = ''
             # Check if username is added to title
@@ -271,7 +271,7 @@ def create_events(pulse_or_list, author=False, server=False, key=False, misp=Fal
             if 'message' in result:
                 if result['message'] == "No matches.":
                     event = misp.new_event(distribution, threat_level, analysis, event_name, date=event_date,
-                                           published=publish)
+                                           published=False)
             else:
                 for evt in result['response']:
                     # If it exists, set 'event' to the event
@@ -284,7 +284,7 @@ def create_events(pulse_or_list, author=False, server=False, key=False, misp=Fal
                     # Event not found, even though search results were returned
                     # Build new event
                     event = misp.new_event(distribution, threat_level, analysis, event_name, date=event_date,
-                                           published=publish)
+                                           published=False)
 
         time.sleep(0.2)
         if tlp:
