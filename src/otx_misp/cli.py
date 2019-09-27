@@ -26,7 +26,7 @@ from otx_misp.configuration import Configuration
 from otx_misp import get_pulses_iter as get_pulses, create_events
 from .otx import InvalidAPIKey, BadRequest
 
-log = logging.getLogger('oxt_misp')
+log = logging.getLogger('otx_misp')
 console_handler = logging.StreamHandler()
 log.addHandler(console_handler)
 
@@ -98,7 +98,11 @@ parser.add_argument('--author-tag', help="Add the pulse author as an event tag",
                     action='store_true')
 parser.add_argument('--bulk-tag', help="Add a custom tag that will be added to all events (e.g. OTX)",
                     type=str)
-parser.add_argument('--dedup-titles', help="Search MISP for an existing event title and update it, rather than create a new one",
+parser.add_argument('--dedup-titles',
+                    help="Search MISP for an existing event title and update it, rather than create a new one",
+                    action='store_true')
+parser.add_argument('--stop-on-error',
+                    help="Stop import when an exception is raised",
                     action='store_true')
 
 
@@ -149,7 +153,8 @@ def main(args=None):
             'to_ids': config.to_ids,
             'author_tag': config.author_tag,
             'bulk_tag': config.bulk_tag,
-            'dedup_titles': config.dedup_titles
+            'dedup_titles': config.dedup_titles,
+            'stop_on_error': config.stop_on_error
         }
         try:
             import pymisp
@@ -159,7 +164,7 @@ def main(args=None):
     try:
         create_events(pulses, author=config.author, **kwargs)
     except Exception as ex:
-        log.error(ex.message)
+        log.error("Error: {}".format(ex))
         sys.exit(21)
     if config.write_config or config.update_timestamp:
         if args.config:

@@ -2,11 +2,56 @@
 Changelog
 =========
 
-1.1.2 (2017-03-24)
+
+1.4.3 (2019-02-10)
+------------------
+
+*  Fixed the PyMISP version check in add tag wrapper (@obert01)
+
+
+1.4.2 (2018-05-11)
+------------------
+
+*  Fix typo in logger name (@TheDr1ver)
+*  Don't add already attached tag to events
+*  Tested with Python 3.5 and MISP 2.4.89
+
+
+1.4.1 (2017-08-25)
+------------------
+
+*  Fix MISP tag name parsing (@KALRONG)
+*  Use pulse 'created' date in MISP event (@obert01)
+
+
+1.4.0 (2017-08-14)
+------------------
+
+*  Add YARA indicator support
+
+
+1.3.0 (2017-07-04)
+------------------
+
+*  Fix dedup function
+*  Fix TLP tag import
+*  Don't stop on import error
+*  Python 2 support warning
+*  Tested with Python 3.5, MISP 2.4.[71-76], PyMISP 2.4.71
+
+
+1.2.1 (2017-03-31)
+------------------
+
+*  Fix Python 3 compatibility
+
+
+1.2.0 (2017-03-31)
 ------------------
 
 *  Fixes event tagging 
 *  Adds additional tagging options
+*  Handles empty reference field in OTX pulses
 
 
 1.1.1 (2017-01-28)
